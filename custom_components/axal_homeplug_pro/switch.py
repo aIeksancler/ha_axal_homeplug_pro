@@ -1,20 +1,37 @@
 from homeassistant.components.switch import SwitchEntity
-from .const import DOMAIN, DEVICE_ID
+from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-async def async_setup_entry(hass, config_entry, async_add_entities):
-    async_add_entities([ChargerSwitch(hass.data[DOMAIN])])
+from .const import DOMAIN
+import tinytuya
 
-class ChargerSwitch(SwitchEntity):
+
+async def async_setup_entry(hass, entry, async_add_entities):
+    """Set up switch platform."""
+    device = tinytuya.OutletDevice(entry.data["id"], entry.data["ip"], entry.data["key"])
+    async_add_entities([AXALChargerSwitch(device)], True)
+
+
+class AXALChargerSwitch(SwitchEntity):
+    """Switch to turn charging on/off."""
+
     def __init__(self, device):
         self._device = device
-        self._attr_name = "Charger Power"
+        self._attr_name = "AXAL Charger Power"
+        self._attr_unique_id = f"{device.id}_switch"
+        self._state = False
 
     @property
     def is_on(self):
-        return self._device.status.get("switch")
+        return self._state
 
-    async def async_turn_on(self, **kwargs):
-        await self._device.set_property("switch", True)
+    def turn_on(self, **kwargs):
+        self._device.set_status(True, "switch")
+        self._state = True
 
-    async def async_turn_off(self, **kwargs):
-        await self._device.set_property("switch", False)
+    def turn_off(self, **kwargs):
+        self._device.set_status(False, "switch")
+        self._state = False
+
+    def update(self):
+        status = self._device.status()
+        self._state = status.get("switch", False)
