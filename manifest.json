@@ -1,0 +1,9 @@
+{
+  "domain": "tuya_charger",
+  "name": "Tuya Charger",
+  "version": "1.0.0",
+  "documentation": "",
+  "dependencies": [],
+  "codeowners": ["@Aleksander"],
+  "requirements": []
+}
