@@ -1,6 +1,6 @@
 {
-  "domain": "axal_homeplug_pro",
-  "name": "AXAL homeplug pro",
+  "domain": "tuya_charger",
+  "name": "Tuya Charger",
   "version": "1.0.0",
   "documentation": "",
   "dependencies": [],
