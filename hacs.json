@@ -1,0 +1,9 @@
+{
+  "name": "AXAL homeplug pro",
+  "content_in_root": false,
+  "domains": ["axal_homeplug_pro"],
+  "country": ["BE", "EU"],
+  "homeassistant": "2024.0.0",
+  "persistent_directory": "axal_homeplug_pro",
+  "render_readme": true
+}
